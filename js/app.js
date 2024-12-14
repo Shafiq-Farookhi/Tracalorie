@@ -11,6 +11,7 @@ class CalorieTracker {
         this._displayCaloriesBurned();
         this._displayCaloriesRemaining();
         this._displayCaloriesProgress();
+        // this._displayCaloriesProgressReverse();
 
         document.getElementById('limit').value = this._calorieLimit;
     }
@@ -131,10 +132,36 @@ class CalorieTracker {
 
     _displayCaloriesProgress() {
         const progressEl = document.getElementById('calorie-progress');
-        const percentage = (this._totalCalories / this._calorieLimit) * 100;
-        const width = Math.min(percentage, 100);
+    
+        // Calculate the total meal calories
+        const totalMealCalories = this._meals.reduce((total, meal) => total + meal.calories, 0);
+    
+        // Calculate percentage based on meal calories relative to the limit
+        const percentage = ((totalMealCalories / this._calorieLimit) * 100);
+    
+        // Clamp the width to stay between 0% and 100%
+        const width = Math.min(100, Math.max(0, percentage));
+    
+        // Update the progress bar width
         progressEl.style.width = `${width}%`;
     }
+    
+    // _displayCaloriesProgressReverse() {
+    //     const progressEl = document.getElementById('calorie-progress-reverse');
+    
+    //     // Calculate the total meal calories
+    //     const totalWorkoutCalories = this._workouts.reduce((total, workout) => total + workout.calories, 0);
+    
+    //     // Calculate percentage based on workout calories relative to the limit
+    //     const percentage = ((totalWorkoutCalories / this._calorieLimit) * 100);
+    
+    //     // Clamp the width to stay between 0% and 100%
+    //     const width = Math.min(100, Math.max(0, percentage));
+    
+    //     // Update the progress bar width
+    //     progressEl.style.width = `${width}%`;
+    // }
+    
 
     _displayNewMeal(meal) {
         const mealsEl = document.getElementById('meal-items');
